@@ -7,7 +7,15 @@
     <body>
         <h1>Agregar Orden</h1>
 
-        <form id="order_form" method="post" action="{% url 'add_order' %}">
+        {% if order and update %}
+
+            <form id="order_form" method="post" action="{% url 'order_edit' order.id %}">
+
+        {% else %}
+
+            <form id="order_form" method="post" action="{% url 'add_order' %}">
+
+        {% endif %}
 
             {% csrf_token %}
             {% for hidden in form.hidden_fields %}

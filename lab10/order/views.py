@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect, get_object_or_404, HttpResponseRedirect, render_to_response, RequestContext
+from django.shortcuts import render, redirect, get_object_or_404, HttpResponseRedirect
 from order.models import Order, Customer, Product, Stock
 from order.forms import CustomerForm, ProductForm, StockForm, OrderForm
 
@@ -26,7 +26,7 @@ def order(request, order_id):
 
         context.update({'error': True})
 
-    return render(request, 'detail.html', context)
+    return render(request, 'order_detail.html', context)
 
 
 def customer(request, customer_slug):
@@ -137,8 +137,7 @@ def add_order(request):
             print(form.errors)
 
     else:
-        form = OrderForm()
-        context.update({'form':form})
+        context.update({'form':OrderForm()})
 
     return render(request, 'add_order.html', context)
 
@@ -166,6 +165,8 @@ def product_list(request):
 
     return render(request, 'product_list.html', context)
 
+
+""" Actualizacion de elementos """
 
 def customer_edit(request, customer_id):
 
@@ -204,7 +205,6 @@ def customer_edit(request, customer_id):
 
     return render(request, 'add_customer.html', context)
 
-""" Actualizacion de elementos """
 
 def product_edit(request, product_id, stock_id):
 
@@ -270,3 +270,41 @@ def product_edit(request, product_id, stock_id):
         'stock': stock})
 
     return render(request, 'add_product.html', context)
+
+
+def order_edit(request, order_id):
+
+    context = {}
+
+    try:
+        order = get_object_or_404(Order, id=order_id)
+
+        if request.method == 'POST':
+
+            form = OrderForm(request.POST)
+
+            if form.is_valid():
+                order.order_customer_id = form.cleaned_data['order_customer_id']
+                order.order_product_id = form.cleaned_data['order_product_id']
+                order.order_amount = form.cleaned_data['order_amount']
+
+                order.save()
+
+                return HttpResponseRedirect('/order/detail/%s/' % order.id)
+
+        else:
+            order_data = {
+                'order_product_id': order.order_product_id,
+                'order_customer_id': order.order_customer_id,
+                'order_amount': order.order_amount
+            }
+
+            form = OrderForm(initial=order_data)
+
+    except Order.DoesNotExist:
+
+        context.update({'error': True})
+
+    context.update({'title': 'Editar Cliente', 'form': form, 'update': True, 'order': order})
+
+    return render(request, 'add_order.html', context)

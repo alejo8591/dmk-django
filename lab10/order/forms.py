@@ -49,5 +49,5 @@ class OrderForm(forms.ModelForm):
 	order_amount = forms.DecimalField(help_text='Cantidad del Producto', initial=0)
 
 	class Meta:
-		models = Order
+		model = Order
 		fields = ('order_customer_id', 'order_product_id', 'order_amount',)

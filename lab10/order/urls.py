@@ -5,6 +5,7 @@ urlpatterns = patterns('',
     url(r'^$', views.order_index, name='order_index'),
     url(r'^detail/(?P<order_id>\d+)/$', views.order, name='order'),
     url(r'^add/$', views.add_order, name='add_order'),
+    url(r'^edit/(?P<order_id>\d+)/$', views.order_edit, name='order_edit'),
     # URLs Customer
     url(r'^customer/$', views.customer_list, name='customer_list'),
     url(r'^customer/detail/(?P<customer_slug>[\w\-]+)/$', views.customer, name='customer'),

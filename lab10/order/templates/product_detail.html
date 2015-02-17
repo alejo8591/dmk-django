@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <title>{{ title }}</title>
+  </head>
+  <body>
+    {% if product %}
+      <h3>{{ title }}</h3>
+      <a href="{% url 'product_edit' product.id stock.id %}">Editar Información del Producto</a>
+        <ul>
+          <li>Nombre del Producto: {{ product.product_name }}</li>
+          <li>Precio del Producto: {{ product.product_price }}</li>
+          <li>Tipo de Producto: {{ product.product_type }}</li>
+          <li>Descripción del Producto: {{ product.product_description }}</li>
+          <li>Última Actualización del Producto: {{ product.date_updated_product }}</li>
+    {% endif %}
+    {% if error %}
+          <li>Algo salio mal</li>
+    {% endif %}
+    {% if stock %}
+      <li>El stock del Producto es: {{ stock.stock_quantity }} Unidades</li>
+    {% else %}
+      <li>No existen unidades disponibles</li>
+    {% endif %}
+    </ul>
+    <a href="{% url 'order_index' %}">Inicio</a>
+  </body>
+</html>

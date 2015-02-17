@@ -1,0 +1,37 @@
+body {
+	font-family: Arial, sans-serif;
+	font-size: 16px;
+	color: #333;
+}
+
+#container{
+	margin: 0 auto;
+	max-width: 960px;
+}
+
+#container header{
+	background: #DDD;
+	border-bottom: 1px solid #555;
+	padding: 10px;
+	text-align: center;
+}
+
+#container header p{
+	font-size: 2em;
+	margin: 1em;
+}
+
+#container #content{
+	background: #CCC;
+	padding: 10px;
+}
+
+#container #content article{
+	background: #FFF;
+	border-bottom: 2px solid #CCC;
+}
+
+#container footer{
+	background: #CCC;
+	padding: 10px;
+}

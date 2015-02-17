@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	{% if customer %}
+	<h2>{{title}}</h2>
+	<a href="{% url 'customer_edit' customer.id %}">Editar Cliente</a>
+	<ul>
+		<li>Nombre del Cliente: {{ customer.customer_name }}</li>
+		<li>Teléfono del Cliente: {{ customer.customer_phone }}</li>
+		<li>Dirección del Cliente: {{ customer.customer_address}}</li>
+	</ul>
+	{% else %}
+		<h3>No hay información Disponible</h3>
+	{% endif %}
+	{% if error %}
+		<h4>Al parecer hubo un problema con la información</h4>
+	{% endif %}
+	<br />
+	<h2>Menú de Opciones</h2>
+    <a href="{% url 'add_customer' %}">Crear Cliente</a>
+    <a href="{% url 'add_product' %}">Crear Producto</a>
+    <a href="{% url 'add_order' %}">Crear Orden</a><br />
+    <h2>Menú de Listados</h2>
+    <a href="{% url 'product_list' %}">Lista de Productos</a>
+    <a href="{% url 'order_index' %}">Lista de Ordenes</a>
+</body>
+</html>

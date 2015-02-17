@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Test Templeates</title>
+	<link rel="stylesheet" href="{% static "css/styles.css"%}">
+</head>
+<body>
+	<section id="container">
+		<header>
+			<h1>{{ title }}</h1>
+			<p>{{ description }}</p>			
+		</header>
+	<section id="content">
+		<article>
+			<div>
+				<h2>{{ movie }}</h2>
+				<div>
+					Director: <span>{{ director }}</span> 
+				</div>
+				<span>{{ genre }}</span>
+				<a href="#">Trailer</a>
+				<img src="{% static "img/image.png" %}" alt="" />
+				<img src="{{ MEDIA_URL }}image.png" alt="" />
+
+			</div>
+		</article>
+		<article>
+			<h2>Titulo 2</h2>
+			<p>
+				Lorem ipsum dolor sit amet, consectetur adipisicing elit. Doloribus aut voluptates ad nobis velit rerum alias. Id sit, qui. Vel pariatur harum possimus ipsa officia officiis quas inventore architecto ut!
+			</p>
+		</article>
+	</section>
+	<footer>
+		Creado por mi en el 2105
+	</footer>
+</section>
+</body>
+</html>

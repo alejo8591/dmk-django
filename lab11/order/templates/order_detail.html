@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	{% if order %}
+	<h2>{{title}}</h2>
+	<a href="{% url 'order_edit' order.id %}">Editar la Orden</a>
+	<ul>
+		<li>Número de la Order: {{ order.id }}</li>
+		<li>Nombre del Cliente: {{ order.order_customer_id }} <a href="{% url 'customer' order.order_customer_id.customer_slug %}">Ver Detalle(s)</a></li>
+		<li>Producto de la Orden: {{ order.order_product_id }}</li>
+		<li>Cantidad del Producto: {{ order.order_amount }}</li>
+	</ul>
+	{% else %}
+		<h3>No hay información Disponible</h3>
+	{% endif %}
+	{% if error %}
+		<h4>Al parecer hubo un problema con la información</h4>
+	{% endif %}
+	<br />
+	<a href="{% url 'order_index' %}">Volver a Inicio</a>
+</body>
+</html>

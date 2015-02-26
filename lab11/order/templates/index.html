@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	{# 
+	   Esto es un comentario
+	   multilinea para Django Templates
+	 #}
+	<h1>{{ title }}</h1>
+	{% if orders %}
+		<ul>
+		{% for order in orders %}
+			<li>{{ order.order_customer_id }} tiene una orden con #{{ order.id }}  <a href="{% url 'order' order.id %}">Ver Detalle</a></li> 
+		{% endfor %}
+        </ul>
+    {% else %}
+    	<h3>No hay Ordenes en el Sistema</h3>
+    {% endif %}
+
+    <h2>Menú de Opciones</h2>
+    <a href="{% url 'add_customer' %}">Crear Cliente</a>
+    <a href="{% url 'add_product' %}">Crear Producto</a><br />
+    <h2>Menú de Listados</h2>
+    <a href="{% url 'product_list' %}">Lista de Productos</a>
+    <a href="{% url 'index' %}">Lista de Ordenes</a>
+    <script src="{% static "js/jquery-1.11.2.min.js" %}"></script>
+	<script src="{% static "js/csrf.js" %}"></script>
+	<script src="{% static "js/lab11.js" %}"></script>
+</body>
+</html>

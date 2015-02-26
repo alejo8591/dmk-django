@@ -25,7 +25,10 @@
         <h2>Menú de Listados</h2>
         <a href="{% url 'customer_list' %}">Lista de Clientes</a>
         <a href="{% url 'product_list' %}">Lista de Productos</a>
-        <a href="{% url 'order_index' %}">Lista de Ordenes</a>
+        <a href="{% url 'order_index' %}">Lista de Ordenes</a><br />
+
+        <a id="customer_list_button" href="#">Traer lista de clientes</a>
+        <ul id="customer_list"></ul>
     {% else %}
         <a href="{% url 'login' %}">Ingresar</a>
         <a href="{% url 'register' %}">Register</a>

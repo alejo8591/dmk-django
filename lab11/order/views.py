@@ -1,8 +1,13 @@
-from django.shortcuts import render, redirect, get_object_or_404, HttpResponseRedirect
+from django.shortcuts import render, redirect, get_object_or_404, HttpResponseRedirect, HttpResponse
 from order.models import Order, Customer, Product, Stock
 from order.forms import CustomerForm, ProductForm, StockForm, OrderForm
 from django.contrib.auth.decorators import login_required
+from datetime import datetime
 
+import json
+
+from order.serializers import *
+from rest_framework import viewsets
 
 def order_index(request):
 
@@ -166,9 +171,38 @@ def product_list(request):
 
     products = Product.objects.all()
 
+    visits = int(request.COOKIES.get('visits', '1'))
+
+    if not visits:
+        visits = 1
+
     context.update({'products':products, 'title': 'Listado de Productos'})
 
-    return render(request, 'product_list.html', context)
+    reset_last_visit_time = False
+
+    response = render(request, 'product_list.html', context)
+
+    if 'last_visit' in request.COOKIES:
+
+        last_visit = request.COOKIES['last_visit']
+
+        last_visit_time = datetime.strptime(last_visit[:-7], '%Y-%m-%d %H:%M:%S')
+
+        if (datetime.now() - last_visit_time).seconds > 0:
+            visits += 1
+            reset_last_visit_time = True
+
+    else:
+        reset_last_visit_time = True
+        context.update({'visits': visits})
+
+        response = render(request, 'product_list.html', context)
+
+    if reset_last_visit_time:
+        response.set_cookie('last_visit', datetime.now())
+        response.set_cookie('visits', visits)
+            
+    return response
 
 
 
@@ -316,3 +350,66 @@ def order_edit(request, order_id):
     context.update({'title': 'Editar Cliente', 'form': form, 'update': True, 'order': order})
 
     return render(request, 'add_order.html', context)
+
+""" AJAX """
+@login_required
+def like_product(request):
+
+    product_id = None
+    likes = 0
+
+    if request.is_ajax():
+        product_id = request.POST['product_id']
+
+        if product_id:
+            product = Product.objects.get(id=product_id)
+
+            if product:
+                product.product_likes = 0 if product.product_likes == None else int(product.product_likes)
+
+                likes = product.product_likes + 1
+
+                product.product_likes = likes
+
+                product.save()
+
+    return HttpResponse(likes)
+
+
+def button_customer_list(request):
+
+    if request.is_ajax():
+        # Primer forma del queryset
+        #customers = Customer.objects.all()
+        # Primer forma del queryset
+        customers = Customer.objects.values('customer_name', 'customer_phone', 'customer_address', 'id', 'customer_slug')
+
+        # Primera forma de iterar sobre la informacion del queryset
+        #objects = []
+
+        #for customer in customers:
+        #    objects.append(customer)
+
+        #objects = [customer for customer in customers.values()]
+        # Segunda forma de iterar sobre la informacion del queryset 
+        objects = [customer for customer in customers]
+
+    return HttpResponse(json.dumps(objects), content_type='application/json')
+
+
+""" REST API """
+class CustomerViewSet(viewsets.ModelViewSet):
+    queryset = Customer.objects.all()
+    serializer_class = CustomerSerializer
+
+class ProductViewSet(viewsets.ModelViewSet):
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+
+class StockViewSet(viewsets.ModelViewSet):
+    queryset = Stock.objects.all()
+    serializer_class = StockSerializer
+
+class OrderViewSet(viewsets.ModelViewSet):
+    queryset = Order.objects.all()
+    serializer_class = OrderSerializer

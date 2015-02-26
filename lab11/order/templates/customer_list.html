@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <title>{{ title }}</title>
+  </head>
+  <body>
+    {% if customers %}
+      <h1>{{ title }}</h1>
+      <ul>
+        {% for customer in customers %}
+          <li>{{ customer.customer_name }} <a href="{% url 'customer' customer.customer_slug %}">Ver Detalles</a></li>
+        {% endfor %}
+      </ul>
+    {% else%}
+      <h3>Por el momento no hay Clientes Registrados</h3>
+    {% endif %}
+    <h2>Menú de Opciones</h2>
+    <a href="{% url 'add_customer' %}">Crear Cliente</a>
+    <a href="{% url 'add_product' %}">Crear Producto</a>
+    <a href="{% url 'add_order' %}">Crear Orden</a><br />
+    <h2>Menú de Listados</h2>
+    <a href="{% url 'product_list' %}">Lista de Productos</a>
+    <a href="{% url 'order_index' %}">Lista de Ordenes</a>s
+  </body>
+</html>

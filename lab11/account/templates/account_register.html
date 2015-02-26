@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	{% if registered %}
+		<h3>Gracias por Registrase</h3>
+		<a href="{% url 'order_index' %}">Ir al Inicio de la Aplicación</a>
+	{% else %}
+
+	<form action="{% url 'register' %}" method="POST" enctype="multipart/form-data">
+		{% csrf_token %}
+		{{ user_form.as_p }}
+		{{ profile_form.as_p }}
+
+		<input type="submit" name="submit" value="Registrarme" />
+	</form>
+	{% endif %}
+</body>
+</html>

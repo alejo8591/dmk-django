@@ -37,6 +37,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'autofixture',
+    'rest_framework',
     'account',
     'app',
     'order',

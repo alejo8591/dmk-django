@@ -1,5 +1,5 @@
 from django.shortcuts import render, HttpResponseRedirect, HttpResponse
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, logout, login as user_login
 from account.forms import UserForm, UserProfileForm
 from django.contrib.auth.decorators import login_required
 
@@ -56,7 +56,7 @@ def login(request):
 
 		if user.is_active:
 
-			login(request, user)
+			user_login(request, user)
 
 			return HttpResponseRedirect('/order/')
 

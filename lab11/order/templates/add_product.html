@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Order</title>
+    </head>
+
+    <body>
+        <h1>Agregar Producto</h1>
+
+        {% if update and product and stock %}
+        
+        	<form id="product_form" method="post" action="{% url 'product_edit' product.id stock.id %}">
+
+        {% else %}
+
+        	<form id="product_form" method="post" action="{% url 'add_product' %}">
+
+        {% endif %}
+
+            {% csrf_token %}
+            {% for hidden in product_form.hidden_fields %}
+                {{ hidden }}
+            {% endfor %}
+            {% for field in product_form.visible_fields %}
+                {{ field.errors }}
+                {{ field.help_text }}
+                {{ field }}<br />
+            {% endfor %}
+            {% for hidden in stock_form.hidden_fields %}
+                {{ hidden }}
+            {% endfor %}
+            {% for field in stock_form.visible_fields %}
+                {{ field.errors }}
+                {{ field.help_text }}
+                {{ field }}<br />
+            {% endfor %}
+
+            <input type="submit" name="submit" value="Crear Producto" />
+        </form>
+    </body>
+</html>
